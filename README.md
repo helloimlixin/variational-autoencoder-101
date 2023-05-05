@@ -47,3 +47,9 @@ $$
 $$
 
 ## Reparameterization Trick
+
+To make the sampling process differentiable, one common approach is the *reparameterization trick*,
+$$\mathbf{z} \sim q_\phi (\mathbf{z} | \mathbf{x}^{(i)}) = \mathcal{N}(\mathbf{z}; \mu^{(i)}, \sigma^{2(i)}\mathbf{I})$$
+$$\mathbf{z} = \mu + \sigma \odot \epsilon,\quad \epsilon \sim \mathcal{N}(\mathbf{0}, \mathbf{I}),$$
+where $\odot$ denotes the Hadamard product. The figure below is an illustration of the variational autoencoder with the multivariate Gaussian assumption,
+[![VAE with Multivariate Gaussian Assumption](https://lilianweng.github.io/posts/2018-08-12-vae/vae-gaussian.png)](https://lilianweng.github.io/posts/2018-08-12-vae/)

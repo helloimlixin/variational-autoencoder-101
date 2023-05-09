@@ -7,21 +7,25 @@ import torch.nn.functional as F
 The Linear VAE module.
 '''
 class LinearVAE(nn.Module):
-    def __init__(self):
-        super(LinearVAE, self, num_features).__init__()
+    def __init__(self, num_features):
+        super(LinearVAE, self).__init__()
         
         '''
         The Architecture of the Linear VAE is as follows:
         '''
         
-        self.latent_dim = num_features
+        self.latent_dim = num_features # output feature dimension of the encoder
         
         # encoder layers
+        
+        # corresponds to the input image size (MNIST Digits: 28*28*1)
         self.enc1 = nn.Linear(in_features=784, out_features=512)
-        self.enc2 = nn.Linear(in_features=512, out_features=latent_dim * 2)
+        # last layer of the encoder, outputs the mean and log variance of the latent space
+        self.enc2 = nn.Linear(in_features=512, out_features=num_features * 2)
         
         # decoder layers
-        self.dec1 = nn.Linear(in_features=latent_dim, out_features=512)
+        # stacked in reverse order as compared to the encoder
+        self.dec1 = nn.Linear(in_features=num_features, out_features=512)
         self.dec2 = nn.Linear(in_features=512, out_features=784)
     
     def reparameterize(self, mu, log_var):
@@ -34,8 +38,8 @@ class LinearVAE(nn.Module):
         returns:
             a sample from the latent space
         '''
-        std = torch.exp(0.5*log_var)
-        eps = torch.randn_like(std)
+        std = torch.exp(0.5*log_var) # compute standard deviation using log-var
+        eps = torch.randn_like(std) # gaussian noise
         sample = mu + (eps*std) # sampling with the reparemeterization trick
         
         return sample

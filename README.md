@@ -25,9 +25,6 @@ $$p_\theta (\mathbf{x}^{(i)}) = \int p_\theta(\mathbf{x}^{(i)}|\mathbf{z}) p_\th
 which is not tractable and often we would compute an approximation function $q_\phi (\mathbf{z}|\mathbf{x}^{(i)})$ to approximate the posterior $p_\theta (\mathbf{z}|\mathbf{x}^{(i)})$, parameterized by $\phi$. To minimize the distance between the two probabilities, we minimize the Kullback-Leibler divergence with respect to $\phi$,
 $$\min_\phi D_{KL} (q_\phi(\mathbf{z}|\mathbf{x}^{(i)}) | p_\theta(\mathbf{z}|\mathbf{x}^{(i)})),$$
 which can be expanded as,
-
-**TODO: Add i superscripts**
-
 $$
 \begin{aligned}
 D_{KL} &(q_\phi(\mathbf{z}|\mathbf{x}^{(i)}) \| p_\theta(\mathbf{z}|\mathbf{x}^{(i)})) \\

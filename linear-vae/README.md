@@ -13,7 +13,7 @@ python train.py -e 20 -b 64 -lr 0.0001
 ## Solution of the KL Term, Gaussian Case
 
 Here's the solution to the KL term with both the prior $p_\theta (\mathbf{z}) = \mathcal{N}(\mathbf{0}, \mathbf{I})$ and the posterior approximation $q_\phi(\mathbf{z}|\mathbf{x}^{(i)})$ are Gaussian. Let $J$ be the dimensionality of $\mathbf{z}$.
-Let $\boldsymbol{\mu}^{(i)}$ and $\sigma^{(i)}$ denote the variational mean and standard deviation vectors at datapoint $i$, which are outputs of the encoding MLP, i.e., nonlinear functions of datapoint $\mathbf{x}^{(i)}$ and the variational parameters $\phi$, and let $\mu^{(i)}_j$ and $\sigma^{(i)}_j$ denote the $j$-th element of these
+Let $\boldsymbol{\mu}^{(i)}$ and $\mathbf{\sigma}^{(i)}$ denote the variational mean and standard deviation vectors at datapoint $i$, which are outputs of the encoding MLP, i.e., nonlinear functions of datapoint $\mathbf{x}^{(i)}$ and the variational parameters $\phi$, and let $\mu^{(i)}_j$ and $\sigma^{(i)}_j$ denote the $j$-th element of these
 vectors, then we have,
 $$
 \begin{aligned}

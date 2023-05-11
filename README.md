@@ -108,14 +108,15 @@ When using MLPs as encoders, we have for a given datapoint $\mathbf{x}^{(i)} \in
 $$
 \begin{aligned}
     \log q_\phi (\mathbf{z}^{(i)}|\mathbf{x}^{(i)}) &= \log \mathcal{N}(\mathbf{z}^{(i)}; \boldsymbol{\mu}^{(i)}, (\boldsymbol{\sigma}^{(i)})^2 \mathbf{I}) \\
-    \text{where } \boldsymbol{\mu}^{(i)} &= \mathbf{W}_2 \mathbf{h}^{(i)} + \mathbf{b}_2 \\
-    \log (\boldsymbol{\sigma}^{(i)})^2 &= \mathbf{W}_3 \mathbf{h}^{(i)} + \mathbf{b}_3 \\
-    \mathbf{h}^{(i)} &= \mathrm{ReLU} (\mathbf{W}_1 \mathbf{x}^{(i)} + \mathbf{b}_1)
+    \text{where } \boldsymbol{\mu}^{(i)} &= \mathbf{W}_2^\top \mathbf{h}^{(i)} + \mathbf{b}_2 \\
+    \log (\boldsymbol{\sigma}^{(i)})^2 &= \mathbf{W}_3^\top \mathbf{h}^{(i)} + \mathbf{b}_3 \\
+    \mathbf{h}^{(i)} &= \mathrm{ReLU} (\mathbf{W}_1^\top \mathbf{x}^{(i)} + \mathbf{b}_1)
 \end{aligned}
 $$
 where as mentioned above, the mean and the standard deviation $\boldsymbol{\mu}^{(i)}$ and $\boldsymbol{\sigma}^{(i)}$, are the outputs of the encoding MLP, i.e., nonlinear functions of datapoint $\mathbf{x}^{(i)}$ and $\{\mathbf{W}_1, \mathbf{W}_2, \mathbf{W}_3, \mathbf{b}_1, \mathbf{b}_2, \mathbf{b}_3\}$ are the weights and biases of the MLP encoder and are the variational parameters $\phi$.
 
-Take the MNIST dataset for example, we have the flattened datapoint vector $\mathbf{x}^{(i)} \in \mathbb{R}^{784}$ ($28 \times 28 \times 1 = 784$), if we set the output channel dimension of the first encoder layer as $512$, we have $h^{(i)} \in \mathbb{R}^{512}$, then if we set the number of hidden features as $16$ (aka. latent dimension), we have the output from the second encoder layer is a length-$2 \times 16 = 32$ vector, consisting of the mean and the log-variance vectors that are both $16$ in length. The resulting latent vector is then of shape $\mathbf{z}^{(i)} \in \mathbb{R}^{16}$.
+Take the MNIST dataset for example, we have for the flattened datapoint vector $\mathbf{x}^{(i)} \in \mathbb{R}^{784}$ $(28 \times 28 \times 1 = 784, n_1 = n_2 = 28)$, if we set the output channel dimension of the first encoder layer as $512$, we have $h^{(i)} \in \mathbb{R}^{512}$, then if we set the number of hidden features as $16$ (aka. latent dimension), we have the output from the second encoder layer is a length-$2 \times 16 = 32$ vector, consisting of the mean and the log-variance vectors that are both $16$ in length. The resulting latent vector is then of shape $\mathbf{z}^{(i)} \in \mathbb{R}^{16}$. The encoding process can be shown in the diagram below,
+![Diagram 1: Encoder Architecture of VAE on MNIST Data](vae-encoder.jpg)
 
 ### Decoder
 

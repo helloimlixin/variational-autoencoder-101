@@ -47,30 +47,38 @@ class LinearVAE(nn.Module):
     
     def forward(self, x):
         # encoding
-        print(f'x.shape: {x.shape}')
+        # print(f'x.shape: {x.shape}')
         x = F.relu(self.enc1(x))
-        print(f'h.shape: {x.shape}')
+        # print(f'h.shape: {x.shape}')
         x = self.enc2(x).view(-1, 2, self.latent_dim)
         
-        print(f'x.shape after two encoder layers: {x.shape}')
+        # print(f'x.shape after two encoder layers: {x.shape}')
         
         # get the mean and log variance of the latent space
         mu = x[:, 0, :] # the first feature values as mean
         log_var = x[:, 1, :] # the second feature values as log variance
         
-        print(f'mu.shape: {mu.shape}')
-        print(f'log_var.shape: {log_var.shape}')
+        # print(f'mu.shape: {mu.shape}')
+        # print(f'log_var.shape: {log_var.shape}')
         
         # get a sample from the latent space through reparameterization
         z = self.reparameterize(mu, log_var)
         
-        print(f'z.shape: {z.shape}')
+        # print(f'z.shape: {z.shape}')
         
-        time.sleep(1000000)
+        # time.sleep(1000000)
         
         # decoding
         x = F.relu(self.dec1(z))
+        
+        print(f'x.shape after decoder layer 1: {x.shape}')
+        
         reconstruction = torch.sigmoid(self.dec2(x))
+        
+        print(f'reconstruction.shape: {reconstruction.shape}')
+        print(f'reconstruction: {reconstruction}')
+        
+        time.sleep(1000000)
         
         return reconstruction, mu, log_var
         

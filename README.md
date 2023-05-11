@@ -1,10 +1,13 @@
 # variational-autoencoder-101
+
 Some notes and experiments on Variational Autoencoders
 
-References: 
+References:
+
 1. [From Autoencoder to Beta-VAE by Lil'Log](https://lilianweng.github.io/posts/2018-08-12-vae/)
 2. [Getting Started with Variational Autoencoders using PyTorch by Sovit Ranjan Rath](https://debuggercafe.com/getting-started-with-variational-autoencoders-using-pytorch/)
-3. [*Auto-Encoding Variational Bayes*](https://arxiv.org/abs/1312.6114)
+3. [*Auto-Encoding Variational Bayes* by Kingma, et al.](https://arxiv.org/abs/1312.6114)
+4. [*An Introduction to Variational Autoencoders* by Kingma, et al.](https://arxiv.org/abs/1906.02691)
 
 ## Overview
 
@@ -123,10 +126,10 @@ Take the MNIST dataset for example, we have for the flattened datapoint vector $
 Let the decoder be a multivariate Gaussian with a diagonal covariance structure, denote the dimension of the output image as $n_1 \times n_2$,
 $$
 \begin{aligned}
-    \log p (\mathbf{x}^{(i)}|\mathbf{z}^{(i, l)}) &= \mathcal{N} (\mathbf{x}^{(i)}; \boldsymbol{\mu}^{(i, l)}, (\boldsymbol{\sigma}^{(i, l)})^2\mathbf{I}) \\
+    \log p_\theta (\mathbf{x}^{(i)}|\mathbf{z}^{(i, l)}) &= \mathcal{N} (\mathbf{x}^{(i)}; \boldsymbol{\mu}^{(i, l)}, (\boldsymbol{\sigma}^{(i, l)})^2\mathbf{I}) \\
     \text{where } \boldsymbol{\mu}^{(i, l)} &= \mathbf{W}_5 \mathbf{h}^{(i, l)} + \mathbf{b}_5 \\
     \log (\boldsymbol{\sigma}^{(i, l)})^2 &= \mathbf{W}_6 \mathbf{h}^{(i, l)} + \mathbf{b}_6 \\
     \mathbf{h}^{(i, l)} &= \mathrm{ReLU}(\mathbf{W}_4 \mathbf{z}^{(i, l)} + \mathbf{b}_4)
 \end{aligned}
 $$
-where $\{\mathbf{W}_4, \mathbf{W}_5, \mathbf{W}_6, \mathbf{b}_4, \mathbf{b}_5, \mathbf{b}_6\}$ are the weights and biases of the MLP and part of $\theta$ when the MLP is used as an decoder.
+where $\{\mathbf{W}_4, \mathbf{W}_5, \mathbf{W}_6, \mathbf{b}_4, \mathbf{b}_5, \mathbf{b}_6\}$ are the weights and biases of the MLP and part of $\theta$ when the MLP is used as an decoder. The working mechanism of the decoder is similar to the encoder, just in reverse order.

@@ -81,4 +81,3 @@ class LinearVAE(nn.Module):
         time.sleep(1000000)
         
         return reconstruction, mu, log_var
-        

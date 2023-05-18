@@ -104,22 +104,22 @@ def fit(model, dataloader):
         the average loss for the epoch
     '''
     model.train()
-    running_loss = 0.0
+    running_loss = 0.0 # keep track of the batch-wise loss
     
     for i, data in tqdm(enumerate(dataloader),
                         total=int(len(train_dataset)/dataloader.batch_size)):
         data, _ = data
         data = data.to(device)
-        data = data.view(data.size(0), -1)
+        data = data.view(data.size(0), -1) # flattens the input data to feed into the linear layer
         optimizer.zero_grad()
         recon_batch, mu, logvar = model(data)
-        bce_loss = criterion(recon_batch, data)
-        loss = compute_loss(bce_loss, mu, logvar)
-        running_loss += loss.item()
-        loss.backward()
-        optimizer.step()
+        bce_loss = criterion(recon_batch, data) # reconstruction loss by binary cross entropy
+        loss = compute_loss(bce_loss, mu, logvar) # total loss is bce_loss + kld_loss
+        running_loss += loss.item() # compute batch loss
+        loss.backward() # backpropage the gradients
+        optimizer.step() # update the model parameters
         
-    train_loss = running_loss/len(dataloader.dataset)
+    train_loss = running_loss/len(dataloader.dataset) # compute the total loss for the epoch
     
     return train_loss
 
@@ -138,12 +138,14 @@ def validate(model, dataloader):
     model.eval()
     running_loss = 0.0
     
-    with torch.no_grad():
+    with torch.no_grad(): # no need to compute gradients for validation
         for i, data in tqdm(enumerate(dataloader),
                             total=int(len(test_dataset)/dataloader.batch_size)):
             data, _ = data
             data = data.to(device)
             data = data.view(data.size(0), -1)
+            
+            # compute the losses
             recon_batch, mu, logvar = model(data)
             bce_loss = criterion(recon_batch, data)
             loss = compute_loss(bce_loss, mu, logvar)
@@ -156,7 +158,7 @@ def validate(model, dataloader):
                                   recon_batch.view(batch_size, 1, 28, 28)[:8]))
                 save_image(both.cpu(), f'../results/linear-vae/reconstruction_{epoch}.png', nrow=num_rows)
             
-        val_loss = running_loss/len(dataloader.dataset)
+        val_loss = running_loss/len(dataloader.dataset) # compute the total validation loss
         
     return val_loss
 
